@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://dyai2025.github.io/Plumbline/sitemap.xml

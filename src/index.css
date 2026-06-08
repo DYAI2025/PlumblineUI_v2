@@ -1,0 +1,208 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600;700&display=swap');
+@import "tailwindcss";
+
+@theme {
+  --color-void: #17110D;
+  --color-depth-teal: #0B282A;
+  --color-umber: #542409;
+  --color-bronze: #7F3A0E;
+  --color-teal: #148A88;
+  --color-gold: #D5891B;
+
+  --font-sans: "Inter", system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, monospace;
+}
+
+/* Base custom styles based on the forensic, brutalist material palette */
+:root {
+  --void: #17110D;
+  --depth-teal: #0B282A;
+  --umber: #542409;
+  --bronze: #7F3A0E;
+  --teal: #148A88;
+  --gold: #D5891B;
+
+  --bg: #17110D;
+  --bg-soft: #0B282A;
+  --panel: #542409;
+  --panel-deep: #17110D;
+  --panel-warm: #7F3A0E;
+
+  --text-primary: #148A88;
+  --text-strong: #D5891B;
+  --text-muted: #7F3A0E;
+  --text-dim: #542409;
+
+  --line-cool: #148A88;
+  --line-warm: #7F3A0E;
+  --line-hot: #D5891B;
+
+  --evidence-fake: #7F3A0E;
+  --evidence-insufficient: #542409;
+  --evidence-boundary: #148A88;
+  --evidence-confirmed: #D5891B;
+  --evidence-contradiction: #7F3A0E;
+
+  --cursor-core: #D5891B;
+  --cursor-lens: #0B282A;
+  --particle-dust: #D5891B;
+  --particle-cold: #148A88;
+  
+  --mouse-x: 50vw;
+  --mouse-y: 50vh;
+}
+
+html, body {
+  background-color: var(--void);
+  color: var(--teal);
+  font-family: var(--font-sans);
+  scroll-behavior: smooth;
+  margin: 0;
+  padding: 0;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* Selection */
+::selection {
+  background-color: var(--gold);
+  color: var(--void);
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: var(--void);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--bronze);
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--teal);
+}
+
+/* Fine Grid Lines Background Overlay */
+.fine-grid {
+  position: absolute;
+  inset: 0;
+  background-size: 40px 40px;
+  background-image: 
+    linear-gradient(to right, rgba(20, 138, 136, 0.04) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(20, 138, 136, 0.04) 1px, transparent 1px);
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* Texture overlay from Bento design rules */
+.grain {
+  position: absolute;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+  opacity: 0.055;
+  pointer-events: none;
+  z-index: 5;
+}
+
+/* Ambient physical particles */
+.dust-particle {
+  position: absolute;
+  width: 2px;
+  height: 2px;
+  background: var(--gold);
+  opacity: 0.18;
+  border-radius: 50%;
+  pointer-events: none;
+}
+
+/* Vignette Background layer */
+.vignette {
+  position: fixed;
+  inset: 0;
+  background: radial-gradient(circle at 50% 50%, transparent 20%, rgba(11, 40, 42, 0.6) 80%, rgba(23, 17, 13, 0.95) 100%);
+  pointer-events: none;
+  z-index: 2;
+}
+
+/* Huge typographic styling modeled after Mockup A */
+.huge-editorial-title {
+  font-size: clamp(3rem, 10vw, 9.5rem);
+  line-height: 0.88;
+  letter-spacing: -0.065em;
+  font-weight: 900;
+  text-transform: uppercase;
+}
+
+/* Smooth fade reveal for interactions */
+.fade-reveal {
+  animation: reveal 1.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes reveal {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Forensic crosshair markers */
+.crosshair-bg {
+  position: relative;
+}
+.crosshair-bg::before, .crosshair-bg::after {
+  content: '';
+  position: absolute;
+  background-color: var(--bronze);
+  opacity: 0.35;
+}
+.crosshair-bg::before {
+  top: 0;
+  bottom: 0;
+  left: 50%;
+  width: 1px;
+}
+.crosshair-bg::after {
+  left: 0;
+  right: 0;
+  top: 50%;
+  height: 1px;
+}
+
+/* Glass panel glow effects */
+.forensic-panel {
+  background: rgba(11, 40, 42, 0.25);
+  backdrop-filter: blur(8px);
+  border: 1px solid var(--bronze);
+  transition: border-color 0.4s ease, background-color 0.4s ease;
+}
+.forensic-panel:hover {
+  border-color: var(--teal);
+  background: rgba(20, 138, 136, 0.05);
+}
+
+/* Micro copy headers with monospace, low opacity spacing */
+.micro-ui-label {
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--bronze);
+}
+
+/* True vertical measurement line */
+.physical-line {
+  position: absolute;
+  left: 50%;
+  top: 0;
+  bottom: 0;
+  width: 1px;
+  background: linear-gradient(to bottom, var(--depth-teal), var(--bronze) 20%, var(--teal) 50%, var(--gold) 80%, var(--void));
+  opacity: 0.3;
+}

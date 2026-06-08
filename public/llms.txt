@@ -1,0 +1,27 @@
+# Plumbline — Evidence-first agent framework for Claude Code
+
+Plumbline separates "looks done" from "is done" by implementing a strict gravity of physical execution proof and verifiable validation loops.
+
+## What is Plumbline?
+Plumbline is an evidence-first developer framework that operates inside the Claude Code environment. Rather than validating systems based on sheer agent output density or syntactic confirmation theater (like a mock unit test passing in isolation), Plumbline introduces physical-world and sandbox gates to build a factual Reality Ledger.
+
+## What Plumbline is NOT
+- It is NOT a source of truth that guarantees absolute bug-free compilation automatically.
+- It is NOT a traditional SaaS platform or multi-agent coordinator built for prompt engineering playground theater.
+- It is NOT a generator of mock tests or artificial code reviews that approve themselves.
+
+## Core Concepts & Structure
+- **Reality Ledger**: A factual journal tracking required value achievements alongside their exact physical evidence metrics.
+- **Evidence Classes**: Structured classes ranging from unverified to user-confirmed.
+- **True-Line Gate**: The deterministic policy boundaries that halt progression when unsupported certainty in claims becomes visible.
+- **Commands**:
+  * `/agileteam` — Executes end-to-end task flows passing through rigorous governance filters.
+  * `/concilium` — Runs multi-expert conceptual stress trials before consuming resources.
+- **Agent Explorer**: A browser tool allowing deep visual inspection of active subagents, capability matrices, and secure skills.
+
+## Target Position
+Plumbline does not claim absolute automated truth; it reveals unsupported assertions, bringing clarity to the gap between claiming value and proving it.
+
+- Code Repository: https://github.com/DYAI2025/Plumbline
+- Documentation: https://github.com/DYAI2025/Plumbline/docs
+- Live Agent Explorer: https://dyai2025.github.io/Plumbline/explorer
