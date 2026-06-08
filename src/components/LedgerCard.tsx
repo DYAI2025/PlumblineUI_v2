@@ -3,7 +3,7 @@ import { Lock, FileText, AlertTriangle, Cpu } from "lucide-react";
 
 export function LedgerCard() {
   return (
-    <div className="border border-bronze/50 bg-[#17110D] font-mono p-5 rounded relative overflow-hidden max-w-xl mx-auto shadow-xl">
+    <div className="border border-bronze/50 bg-void font-mono p-5 rounded relative overflow-hidden max-w-xl mx-auto shadow-xl">
       {/* Dynamic top alert frame */}
       <div className="absolute top-0 left-0 right-0 h-[2px] bg-bronze" />
       

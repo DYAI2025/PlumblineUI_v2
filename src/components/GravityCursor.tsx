@@ -85,7 +85,7 @@ export function GravityCursor({ pointerRef }: GravityCursorProps) {
             ? "w-11 h-11 border-gold bg-gold/5 scale-110 shadow-[0_0_12px_rgba(213,137,27,0.25)]"
             : hoverType === "evidence"
             ? "w-[56px] h-[56px] border-teal border-dashed bg-depth-teal/20"
-            : "w-7 h-7 border-bronze/60 bg-[#0B282A]/15 opacity-80"
+            : "w-7 h-7 border-bronze/60 bg-depth-teal/15 opacity-80"
         }`}
       />
 

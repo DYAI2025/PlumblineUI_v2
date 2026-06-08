@@ -1,5 +1,6 @@
 import { useRef, MutableRefObject, useMemo } from "react";
 import { Canvas, useThree } from "@react-three/fiber";
+import { Environment } from "@react-three/drei";
 import * as THREE from "three";
 import { usePendulumPhysics } from "./usePendulumPhysics";
 
@@ -137,18 +138,31 @@ function PhysicsBob({ pointerRef }: Plumbline3DSceneProps) {
 
 export function Plumbline3DScene({ pointerRef }: Plumbline3DSceneProps) {
   return (
-    <div className="fixed inset-0 pointer-events-none select-none z-[4] overflow-hidden">
+    <div className="fixed inset-0 pointer-events-none select-none z-[60] overflow-hidden">
       <Canvas
         gl={{ alpha: true, antialias: true, powerPreference: "high-performance" }}
         camera={{ position: [0, 0, 6], fov: 42 }}
         style={{ width: "100%", height: "100%", pointerEvents: "none" }}
       >
-        <ambientLight intensity={0.16} />
+        <ambientLight intensity={0.24} />
         
-        {/* Crisp high-contrast neutral and steel-blue light setups for silver/chrome reflections */}
-        <pointLight position={[4.0, 5.0, 4.0]} intensity={4.5} color="#F1F5F9" />
-        <pointLight position={[-4.0, -1.0, 3.0]} intensity={3.5} color="#94A3B8" />
-        <directionalLight position={[0, 4.0, 3.0]} intensity={3.0} color="#FFFFFF" />
+        {/* Spotlighting direct illumination directly targeting the plumb bob */}
+        <spotLight
+          position={[0, 8.0, 6.0]}
+          intensity={9.0}
+          angle={0.5}
+          penumbra={0.4}
+          color="#FFFFFF"
+          castShadow={false}
+        />
+        
+        {/* Dynamic lights for specular shine highlights on the metal profile */}
+        <pointLight position={[5.0, 6.0, 4.0]} intensity={6.0} color="#FFFFFF" />
+        <pointLight position={[-5.0, -1.5, 3.5]} intensity={4.5} color="#E2E8F0" />
+        <directionalLight position={[0.5, 4.0, 4.0]} intensity={4.0} color="#FFFFFF" />
+
+        {/* Realistic studio reflection mapping for realistic metal/mirror glare */}
+        <Environment preset="city" />
 
         <PhysicsBob pointerRef={pointerRef} />
       </Canvas>

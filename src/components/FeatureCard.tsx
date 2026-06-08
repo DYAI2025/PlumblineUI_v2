@@ -54,7 +54,7 @@ export function FeatureCard({ title, cmdOrName, description, className }: Featur
     <div
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
-      className={cn("relative group transition-all duration-300 transform hover:-translate-y-0.5", className)}
+      className={cn("relative group transition-all duration-300 transform hover:-translate-y-0.5 h-full", className)}
     >
       <GlassPanel className="h-full flex flex-col justify-between" isInteractive={true}>
         <div className="space-y-3">
@@ -84,15 +84,15 @@ export function FeatureCard({ title, cmdOrName, description, className }: Featur
               isHovered ? "translate-y-0 opacity-100" : "translate-y-2 opacity-40"
             }`}
           >
-            <div className="flex justify-between text-[#7F3A0E]">
+            <div className="flex justify-between text-bronze">
               <span>SOURCE CHANNEL:</span>
               <span className="text-teal font-semibold">{meta.channel}</span>
             </div>
-            <div className="flex justify-between text-[#7F3A0E]">
+            <div className="flex justify-between text-bronze">
               <span>EVIDENCE PATH:</span>
               <span className="text-teal font-semibold">{meta.path}</span>
             </div>
-            <div className="flex justify-between text-[#7F3A0E]">
+            <div className="flex justify-between text-bronze">
               <span>BOUNDARY GATE:</span>
               <span className="text-gold font-bold">{meta.gate}</span>
             </div>

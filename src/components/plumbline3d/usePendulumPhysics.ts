@@ -259,19 +259,9 @@ export function usePendulumPhysics({
     const finalY = anchorY - cordLength * Math.cos(pos.thetaX) * Math.cos(pos.thetaY);
     const finalZ = cordLength * Math.sin(pos.thetaY);
 
-    // 5. Connect and adjust the Line mesh wire points
-    if (lineMesh) {
-      const positions = lineMesh.geometry.attributes.position.array as Float32Array;
-      positions[0] = 0;
-      positions[1] = anchorY;
-      positions[2] = 0;
-      positions[3] = finalX;
-      positions[4] = finalY + 0.65; // connects elegantly to the Bob cap top neck loop
-      positions[5] = finalZ;
-      lineMesh.geometry.attributes.position.needsUpdate = true;
-    }
+    const mobileScale = size.width < 768 ? 0.72 : 1.0;
 
-    // 6. Direct Group Translation and swing rotation vectors
+    // 5. Update Group Translation and swing rotation vectors first to have the latest values for the line mapping
     if (bobRef.current) {
       bobRef.current.position.set(finalX, finalY, finalZ);
 
@@ -281,6 +271,24 @@ export function usePendulumPhysics({
         0,
         -pos.thetaX * 1.08
       );
+    }
+
+    // 6. Connect and adjust the Line mesh wire points precisely to the rotated suspension point
+    if (lineMesh && bobRef.current) {
+      const positions = lineMesh.geometry.attributes.position.array as Float32Array;
+      positions[0] = 0;
+      positions[1] = anchorY;
+      positions[2] = 0;
+
+      // The loop ring is located at local position y = 0.72 in the scaled bob group coordinate system.
+      // By applying the current Euler rotation of the group, we map it into accurate 3D world space.
+      const suspensionOffset = new THREE.Vector3(0, 0.72 * mobileScale, 0);
+      suspensionOffset.applyEuler(bobRef.current.rotation);
+
+      positions[3] = finalX + suspensionOffset.x;
+      positions[4] = finalY + suspensionOffset.y;
+      positions[5] = finalZ + suspensionOffset.z;
+      lineMesh.geometry.attributes.position.needsUpdate = true;
     }
 
     // 7. Dynamic PointLight localized floor shadows

@@ -2,12 +2,12 @@
 @import "tailwindcss";
 
 @theme {
-  --color-void: #17110D;
-  --color-depth-teal: #0B282A;
-  --color-umber: #542409;
-  --color-bronze: #7F3A0E;
-  --color-teal: #148A88;
-  --color-gold: #D5891B;
+  --color-void: var(--void);
+  --color-depth-teal: var(--depth-teal);
+  --color-umber: var(--umber);
+  --color-bronze: var(--bronze);
+  --color-teal: var(--teal);
+  --color-gold: var(--gold);
 
   --font-sans: "Inter", system-ui, sans-serif;
   --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, monospace;
@@ -48,8 +48,45 @@
   --particle-dust: #D5891B;
   --particle-cold: #148A88;
   
+  --vignette-grad: radial-gradient(circle at 50% 50%, transparent 20%, rgba(11, 40, 42, 0.6) 80%, rgba(23, 17, 13, 0.95) 100%);
   --mouse-x: 50vw;
   --mouse-y: 50vh;
+}
+
+/* Light mode overrides */
+.light {
+  --void: #FAF7F2;          /* Clean, warm ivory paper background */
+  --depth-teal: #EAE6DF;    /* Warm beige paper accent for bento blocks */
+  --umber: #D0C3B5;         /* Soft warm grey-taupe borders */
+  --bronze: #5C3E2A;        /* Extremely dark mocha bronze for text/log copy */
+  --teal: #094F4D;          /* High contrast dark teal for headings and main phrases */
+  --gold: #A25A00;          /* Deep rich gold (very high contrast) */
+
+  --bg: #FAF7F2;
+  --bg-soft: #EAE6DF;
+  --panel: #D8CFBF;
+  --panel-deep: #FAF7F2;
+  --panel-warm: #5C3E2A;
+
+  --text-primary: #094F4D;
+  --text-strong: #A25A00;
+  --text-muted: #5C3E2A;
+  --text-dim: #D8CFBF;
+
+  --line-cool: #094F4D;
+  --line-warm: #5C3E2A;
+  --line-hot: #A25A00;
+
+  --evidence-fake: #8A725D;
+  --evidence-insufficient: #B29B85;
+  --evidence-boundary: #094F4D;
+  --evidence-confirmed: #A25A00;
+  --evidence-contradiction: #5C3E2A;
+
+  --cursor-core: #A25A00;
+  --cursor-lens: #EAE6DF;
+  
+  --vignette-grad: radial-gradient(circle at 50% 50%, transparent 40%, rgba(208, 195, 181, 0.25) 80%, rgba(234, 230, 223, 0.5) 100%);
 }
 
 html, body {
@@ -122,7 +159,7 @@ html, body {
 .vignette {
   position: fixed;
   inset: 0;
-  background: radial-gradient(circle at 50% 50%, transparent 20%, rgba(11, 40, 42, 0.6) 80%, rgba(23, 17, 13, 0.95) 100%);
+  background: var(--vignette-grad);
   pointer-events: none;
   z-index: 2;
 }

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { sections } from "./content";
 import { useSectionObserver } from "./hooks/useSectionObserver";
 import { GravityInteractionLayer } from "./components/GravityInteractionLayer";
@@ -21,10 +21,42 @@ import {
   ArrowRight, 
   DollarSign, 
   Sparkles,
-  Layers
+  Layers,
+  Sun,
+  Moon
 } from "lucide-react";
 
 export default function App() {
+  // Theme Toggle State with automatic local persistence
+  const [theme, setTheme] = useState<"dark" | "light">(HTML_DEFAULT_THEME);
+
+  // Helper macro since typeof window is compiled server-side safely
+  function HTML_DEFAULT_THEME() {
+    if (typeof window !== "undefined") {
+      const savedTheme = localStorage.getItem("plumbline-theme");
+      if (savedTheme === "light" || savedTheme === "dark") {
+        return savedTheme;
+      }
+    }
+    return "dark";
+  }
+
+  useEffect(() => {
+    const root = window.document.documentElement;
+    if (theme === "light") {
+      root.classList.add("light");
+      root.classList.remove("dark");
+    } else {
+      root.classList.add("dark");
+      root.classList.remove("light");
+    }
+    localStorage.setItem("plumbline-theme", theme);
+  }, [theme]);
+
+  const toggleTheme = () => {
+    setTheme((prev) => (prev === "dark" ? "light" : "dark"));
+  };
+
   // Set up Section Observer to track current chapter 00-09
   const sectionIds = sections.map((s) => s.id);
   const activeSectionId = useSectionObserver(sectionIds);
@@ -128,10 +160,27 @@ export default function App() {
           </a>
         </nav>
 
-        {/* Right Status tag Indicator */}
-        <div className="flex items-center gap-2 font-mono text-[9px] uppercase border border-teal/40 px-2.5 py-1 rounded bg-teal/5">
-          <span className="w-1.5 h-1.5 bg-gold rounded-full inline-block animate-ping" />
-          <span className="text-teal font-semibold">TENSION HANGS TRUE</span>
+        {/* Right Status tag Indicator & Theme Switcher */}
+        <div className="flex items-center gap-4">
+          <button
+            onClick={toggleTheme}
+            aria-label="Toggle light and dark mode"
+            className="p-1 px-2 border border-bronze/35 hover:border-teal/80 rounded bg-depth-teal/10 hover:bg-depth-teal/20 text-teal flex items-center justify-center gap-1 cursor-pointer transition-all focus:outline-none focus:ring-1 focus:ring-gold"
+          >
+            {theme === "dark" ? (
+              <Sun className="w-3.5 h-3.5 text-gold animate-bounce" />
+            ) : (
+              <Moon className="w-3.5 h-3.5 text-teal animate-pulse" />
+            )}
+            <span className="font-mono text-[8.5px] uppercase tracking-wider font-semibold">
+              {theme === "dark" ? "Licht" : "Dunkel"}
+            </span>
+          </button>
+
+          <div className="flex items-center gap-2 font-mono text-[9px] uppercase border border-teal/40 px-2.5 py-1 rounded bg-teal/5">
+            <span className="w-1.5 h-1.5 bg-gold rounded-full inline-block animate-ping" />
+            <span className="text-teal font-semibold">TENSION HANGS TRUE</span>
+          </div>
         </div>
       </header>
 
@@ -206,7 +255,7 @@ export default function App() {
               </div>
 
               {/* Bottom statistics microcopy */}
-              <div className="pt-6 font-mono text-[9px] text-[#7F3A0E] tracking-widest uppercase border-t border-umber/40 max-w-lg">
+              <div className="pt-6 font-mono text-[9px] text-bronze tracking-widest uppercase border-t border-umber/40 max-w-lg">
                 86 subagents · 16 vendored skills · Reality Ledger QA · empirical benchmark harness
               </div>
             </div>
@@ -380,7 +429,7 @@ export default function App() {
         {/* ============================================== */}
         <section
           id="line"
-          className="min-h-screen py-32 px-6 md:px-12 lg:px-24 flex flex-col justify-center relative bg-[#17110D]"
+          className="min-h-screen py-32 px-6 md:px-12 lg:px-24 flex flex-col justify-center relative bg-void"
         >
           <div className="physical-line" />
 
@@ -464,7 +513,7 @@ export default function App() {
 
               {/* Grid of Evidence Badges */}
               <GlassPanel className="p-6 space-y-4">
-                <div className="font-mono text-[9px] text-[#7F3A0E] uppercase pb-2 border-b border-umber">
+                <div className="font-mono text-[9px] text-bronze uppercase pb-2 border-b border-umber">
                   DEMANDABLE CLAIMS SPECIFICATION GATES
                 </div>
 
@@ -490,7 +539,7 @@ export default function App() {
         {/* ============================================== */}
         <section
           id="ledger"
-          className="min-h-screen py-32 px-6 md:px-12 lg:px-24 flex flex-col justify-center relative bg-[#17110D]"
+          className="min-h-screen py-32 px-6 md:px-12 lg:px-24 flex flex-col justify-center relative bg-void"
         >
           <div className="max-w-4xl mx-auto w-full relative z-10 space-y-12">
             <div className="space-y-4">
@@ -547,45 +596,48 @@ export default function App() {
                 cmdOrName="/agileteam"
                 title="Autonomous Delivery Pipeline"
                 description="Manages complete task progressions: requirements → PRD → TDD → review → security → validation → human acceptance."
-                className="lg:col-span-3"
+                className="md:col-span-1 lg:col-span-3"
               />
               <FeatureCard
                 cmdOrName="/concilium"
                 title="Four-Body Council"
                 description="Market, Tech, Skeptic, and Distribution agents stress-test ideas inside Claude Code before consuming tokens."
-                className="lg:col-span-3"
+                className="md:col-span-1 lg:col-span-3"
               />
               <FeatureCard
                 cmdOrName="Reality Ledger"
                 title="Rigorous Evidence Classes"
                 description="Each requirement receives an explicit evidence class matching reality boundaries. Fake mocks remain fake."
-                className="lg:col-span-2"
+                className="md:col-span-1 lg:col-span-2"
               />
               <FeatureCard
                 cmdOrName="Honest Status"
                 title="Command for Truth"
                 description="Expose what complies and what remains unverified. Perfect for direct structural evaluation audits."
-                className="lg:col-span-2"
+                className="md:col-span-1 lg:col-span-2"
               />
               <FeatureCard
                 cmdOrName="Agent Explorer"
                 title="Zero-Install Inspector"
                 description="Browser console interface to study dynamic capability limits, triggers, source code, and security rules."
-                className="lg:col-span-2"
+                className="md:col-span-2 lg:col-span-2"
               />
-              {/* Extra technical card to balance grid */}
-              <div className="border border-bronze/65 bg-depth-teal/30 backdrop-blur-md rounded p-6 flex flex-col justify-between font-mono text-[10px] text-bronze h-full min-h-[150px] lg:col-span-6">
+              {/* Extra technical card to balance grid with consistent forensic GlassPanel styling */}
+              <GlassPanel
+                isInteractive={false}
+                className="md:col-span-2 lg:col-span-6 flex flex-col justify-between font-mono text-[10px] text-bronze h-full min-h-[150px]"
+              >
                 <div className="space-y-2">
-                  <span className="text-gold uppercase tracking-widest font-black block">SYSTEM OVERKILL WARNING</span>
+                  <span className="text-gold uppercase tracking-widest font-black block text-xs">SYSTEM OVERKILL WARNING</span>
                   <p className="font-sans text-teal/70 leading-relaxed text-xs">
                     This structure is built specifically for auditable human-agent software systems where confidence theater is a project hazard.
                   </p>
                 </div>
-                <div className="pt-4 border-t border-umber/45 flex justify-between items-center uppercase tracking-widest text-[#7F3A0E] text-[8px]">
+                <div className="pt-4 border-t border-umber/45 mt-4 flex justify-between items-center uppercase tracking-widest text-bronze text-[8px]">
                   <span>AUDITABLE ENGINE LOGS // ACTIVE</span>
                   <span className="text-gold font-bold">READY_</span>
                 </div>
-              </div>
+              </GlassPanel>
             </div>
           </div>
         </section>
@@ -595,7 +647,7 @@ export default function App() {
         {/* ============================================== */}
         <section
           id="bench"
-          className="min-h-screen py-32 px-6 md:px-12 lg:px-24 flex flex-col justify-center relative bg-[#17110D]"
+          className="min-h-screen py-32 px-6 md:px-12 lg:px-24 flex flex-col justify-center relative bg-void"
         >
           <div className="max-w-4xl mx-auto w-full relative z-10 space-y-12">
             <div className="space-y-4">
@@ -718,7 +770,7 @@ export default function App() {
         {/* ============================================== */}
         <section
           id="support"
-          className="min-h-screen py-32 px-6 md:px-12 lg:px-24 flex flex-col justify-center relative bg-[#17110D]"
+          className="min-h-screen py-32 px-6 md:px-12 lg:px-24 flex flex-col justify-center relative bg-void"
         >
           <div className="max-w-4xl mx-auto w-full relative z-10 space-y-12">
             <div className="space-y-4">
@@ -823,7 +875,7 @@ export default function App() {
               
               {/* Selective narrow light cone container representing the final statement */}
               <div className="p-6 bg-void border border-gold/35 rounded space-y-3 shadow-xl">
-                <span className="font-mono text-[8.5px] text-[#7F3A0E] tracking-widest uppercase block font-black">
+                <span className="font-mono text-[8.5px] text-bronze tracking-widest uppercase block font-black">
                   FINAL VERDICT WARNING
                 </span>
                 <p className="font-mono text-xs text-gold uppercase leading-relaxed tracking-wider font-extrabold">

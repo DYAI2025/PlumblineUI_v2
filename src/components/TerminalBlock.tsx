@@ -33,7 +33,7 @@ export function TerminalBlock({ lines }: TerminalBlockProps) {
   };
 
   return (
-    <div className="bg-[#0B282A]/45 border border-bronze/50 rounded overflow-hidden font-mono text-xs w-full max-w-xl mx-auto shadow-2xl relative group">
+    <div className="bg-depth-teal/45 border border-bronze/50 rounded overflow-hidden font-mono text-xs w-full max-w-xl mx-auto shadow-2xl relative group">
       {/* Upper window actions bar */}
       <div className="flex justify-between items-center bg-void/90 px-4 py-2 border-b border-umber">
         <div className="flex items-center gap-1.5 text-bronze text-[9px] uppercase tracking-wider font-bold">
