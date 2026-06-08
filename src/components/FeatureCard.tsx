@@ -68,10 +68,10 @@ export function FeatureCard({ title, cmdOrName, description, className }: Featur
 
           {/* Title and Description */}
           <div>
-            <h3 className="font-sans font-extrabold text-base text-teal/90 group-hover:text-gold transition-colors duration-400">
+            <h3 className="font-sans font-extrabold text-base text-teal group-hover:text-gold transition-colors duration-400">
               {title}
             </h3>
-            <p className="text-xs text-teal/70 leading-relaxed font-sans mt-2">
+            <p className="text-xs text-teal/90 leading-relaxed font-sans mt-2">
               {description}
             </p>
           </div>

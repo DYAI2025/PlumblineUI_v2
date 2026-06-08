@@ -17,36 +17,36 @@
 :root {
   --void: #17110D;
   --depth-teal: #0B282A;
-  --umber: #542409;
-  --bronze: #7F3A0E;
-  --teal: #148A88;
-  --gold: #D5891B;
+  --umber: #853F16;        /* Brightened rust, much better contrast for panels/borders */
+  --bronze: #C57B43;       /* Bright, high-contrast copper/bronze, extremely legible */
+  --teal: #18B0AC;         /* Brighter, glowing high-contrast teal */
+  --gold: #E59A2D;         /* Slightly brighter, rich warm gold */
 
   --bg: #17110D;
   --bg-soft: #0B282A;
-  --panel: #542409;
+  --panel: #853F16;
   --panel-deep: #17110D;
-  --panel-warm: #7F3A0E;
+  --panel-warm: #C57B43;
 
-  --text-primary: #148A88;
-  --text-strong: #D5891B;
-  --text-muted: #7F3A0E;
-  --text-dim: #542409;
+  --text-primary: #18B0AC;
+  --text-strong: #E59A2D;
+  --text-muted: #C57B43;
+  --text-dim: #9E582E;
 
-  --line-cool: #148A88;
-  --line-warm: #7F3A0E;
-  --line-hot: #D5891B;
+  --line-cool: #18B0AC;
+  --line-warm: #C57B43;
+  --line-hot: #E59A2D;
 
-  --evidence-fake: #7F3A0E;
-  --evidence-insufficient: #542409;
-  --evidence-boundary: #148A88;
-  --evidence-confirmed: #D5891B;
-  --evidence-contradiction: #7F3A0E;
+  --evidence-fake: #C57B43;
+  --evidence-insufficient: #853F16;
+  --evidence-boundary: #18B0AC;
+  --evidence-confirmed: #E59A2D;
+  --evidence-contradiction: #C57B43;
 
-  --cursor-core: #D5891B;
+  --cursor-core: #E59A2D;
   --cursor-lens: #0B282A;
-  --particle-dust: #D5891B;
-  --particle-cold: #148A88;
+  --particle-dust: #E59A2D;
+  --particle-cold: #18B0AC;
   
   --vignette-grad: radial-gradient(circle at 50% 50%, transparent 20%, rgba(11, 40, 42, 0.6) 80%, rgba(23, 17, 13, 0.95) 100%);
   --mouse-x: 50vw;

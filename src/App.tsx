@@ -10,6 +10,7 @@ import { FeatureCard } from "./components/FeatureCard";
 import { TerminalBlock } from "./components/TerminalBlock";
 import { CTAButton } from "./components/CTAButton";
 import { SEO } from "./components/SEO";
+import { RollingHeading } from "./components/RollingHeading";
 import { 
   Compass, 
   Terminal, 
@@ -286,10 +287,15 @@ export default function App() {
         >
           <div className="max-w-4xl mx-auto w-full relative z-10 space-y-12">
             <div className="space-y-4">
-              <span className="micro-ui-label text-gold">CHAPTER 01 // PRINCIPLE</span>
-              <h2 className="font-sans font-black text-2xl md:text-5xl text-teal uppercase tracking-tight">
-                Green is not true.
-              </h2>
+              <RollingHeading
+                as="span"
+                text="CHAPTER 01 // PRINCIPLE"
+                className="micro-ui-label text-gold"
+              />
+              <RollingHeading
+                text="Green is not true."
+                className="font-sans font-black text-2xl md:text-5xl text-teal uppercase tracking-tight"
+              />
             </div>
 
             {/* Clickable interactive words loop */}
@@ -435,10 +441,15 @@ export default function App() {
 
           <div className="max-w-4xl mx-auto w-full relative z-10 space-y-12">
             <div className="space-y-4">
-              <span className="micro-ui-label text-gold">CHAPTER 02 // ANALOGY</span>
-              <h2 className="font-sans font-black text-2xl md:text-5xl text-teal uppercase tracking-tight">
-                A plumb line does not argue. <span className="text-gold">It shows.</span>
-              </h2>
+              <RollingHeading
+                as="span"
+                text="CHAPTER 02 // ANALOGY"
+                className="micro-ui-label text-gold"
+              />
+              <RollingHeading
+                text="A plumb line does not argue. {It shows.}"
+                className="font-sans font-black text-2xl md:text-5xl text-teal uppercase tracking-tight"
+              />
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-12 font-sans text-base text-teal/85 leading-relaxed">
@@ -492,10 +503,15 @@ export default function App() {
         >
           <div className="max-w-4xl mx-auto w-full relative z-10 space-y-12">
             <div className="space-y-4">
-              <span className="micro-ui-label text-gold">CHAPTER 03 // EXPOSURE</span>
-              <h2 className="font-sans font-black text-2xl md:text-5xl text-teal uppercase tracking-tight">
-                Where value is absent, Plumbline does not decorate the gap. <span className="text-gold">It shows it.</span>
-              </h2>
+              <RollingHeading
+                as="span"
+                text="CHAPTER 03 // EXPOSURE"
+                className="micro-ui-label text-gold"
+              />
+              <RollingHeading
+                text="Where value is absent, Plumbline does not decorate the gap. {It shows it.}"
+                className="font-sans font-black text-2xl md:text-5xl text-teal uppercase tracking-tight"
+              />
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
@@ -543,10 +559,15 @@ export default function App() {
         >
           <div className="max-w-4xl mx-auto w-full relative z-10 space-y-12">
             <div className="space-y-4">
-              <span className="micro-ui-label text-gold">CHAPTER 04 // EVIDENCE TRACER</span>
-              <h2 className="font-sans font-black text-2xl md:text-5xl text-teal uppercase tracking-tight">
-                Every requirement carries evidence.
-              </h2>
+              <RollingHeading
+                as="span"
+                text="CHAPTER 04 // EVIDENCE TRACER"
+                className="micro-ui-label text-gold"
+              />
+              <RollingHeading
+                text="Every requirement carries evidence."
+                className="font-sans font-black text-2xl md:text-5xl text-teal uppercase tracking-tight"
+              />
             </div>
 
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
@@ -581,10 +602,15 @@ export default function App() {
         >
           <div className="max-w-6xl mx-auto w-full relative z-10 space-y-12">
             <div className="space-y-4 text-center">
-              <span className="micro-ui-label text-gold">CHAPTER 05 // SYSTEM GATES</span>
-              <h2 className="font-sans font-black text-2xl md:text-5xl text-teal uppercase tracking-tight max-w-2xl mx-auto">
-                Welcome to the machine room.
-              </h2>
+              <RollingHeading
+                as="span"
+                text="CHAPTER 05 // SYSTEM GATES"
+                className="micro-ui-label text-gold"
+              />
+              <RollingHeading
+                text="Welcome to the machine room."
+                className="font-sans font-black text-2xl md:text-5xl text-teal uppercase tracking-tight max-w-2xl mx-auto"
+              />
               <p className="font-sans text-teal/80 text-base max-w-xl mx-auto">
                 Plumbline is not just a manifesto. It ships as a complete agentic delivery environment matching product design guidelines.
               </p>
@@ -651,10 +677,15 @@ export default function App() {
         >
           <div className="max-w-4xl mx-auto w-full relative z-10 space-y-12">
             <div className="space-y-4">
-              <span className="micro-ui-label text-gold">CHAPTER 06 // AUDIT BENCHMARKS</span>
-              <h2 className="font-sans font-black text-2xl md:text-5xl text-teal uppercase tracking-tight">
-                We measured the idea we wanted to believe. <span className="text-bronze">It did not fully survive.</span>
-              </h2>
+              <RollingHeading
+                as="span"
+                text="CHAPTER 06 // AUDIT BENCHMARKS"
+                className="micro-ui-label text-gold"
+              />
+              <RollingHeading
+                text="We measured the idea we wanted to believe. [It did not fully survive.]"
+                className="font-sans font-black text-2xl md:text-5xl text-teal uppercase tracking-tight"
+              />
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
@@ -713,10 +744,15 @@ export default function App() {
         >
           <div className="max-w-4xl mx-auto w-full relative z-10 space-y-12">
             <div className="space-y-4">
-              <span className="micro-ui-label text-gold">CHAPTER 07 // SETUP</span>
-              <h2 className="font-sans font-black text-2xl md:text-5xl text-teal uppercase tracking-tight">
-                Install the line.
-              </h2>
+              <RollingHeading
+                as="span"
+                text="CHAPTER 07 // SETUP"
+                className="micro-ui-label text-gold"
+              />
+              <RollingHeading
+                text="Install the line."
+                className="font-sans font-black text-2xl md:text-5xl text-teal uppercase tracking-tight"
+              />
               <p className="font-sans text-teal/80 text-base leading-relaxed max-w-xl">
                 Plumbline runs natively inside Claude Code. No MCP server is required for default deployments.
               </p>
@@ -774,10 +810,15 @@ export default function App() {
         >
           <div className="max-w-4xl mx-auto w-full relative z-10 space-y-12">
             <div className="space-y-4">
-              <span className="micro-ui-label text-gold">CHAPTER 08 // SPONSORSHIP</span>
-              <h2 className="font-sans font-black text-2xl md:text-5xl text-teal uppercase tracking-tight">
-                Fund the measurement. <span className="text-[#ff4d4d]">Not the theater.</span>
-              </h2>
+              <RollingHeading
+                as="span"
+                text="CHAPTER 08 // SPONSORSHIP"
+                className="micro-ui-label text-gold"
+              />
+              <RollingHeading
+                text="Fund the measurement. |Not the theater.|"
+                className="font-sans font-black text-2xl md:text-5xl text-teal uppercase tracking-tight"
+              />
               <p className="font-sans text-teal/80 text-base leading-relaxed max-w-2xl">
                 Plumbline's central claims are measured, not asserted. That costs real model tokens. Sponsorship funds daily benchmark runs, oracle corpora, and deeper evaluation.
               </p>
@@ -859,10 +900,15 @@ export default function App() {
 
           <div className="max-w-4xl mx-auto w-full relative z-10 space-y-12 text-center">
             <div className="space-y-4">
-              <span className="micro-ui-label text-gold">CHAPTER 09 // EPILOGUE</span>
-              <h2 className="huge-editorial-title text-gold inline-block tracking-tight max-w-4xl font-black">
-                The line remains true. <span className="text-teal">Or it does not.</span>
-              </h2>
+              <RollingHeading
+                as="span"
+                text="CHAPTER 09 // EPILOGUE"
+                className="micro-ui-label text-gold"
+              />
+              <RollingHeading
+                text="The line remains true. <Or it does not.>"
+                className="huge-editorial-title text-gold inline-block tracking-tight max-w-4xl font-black mx-auto"
+              />
             </div>
 
             <div className="max-w-xl mx-auto space-y-6 font-sans text-base text-teal/85 leading-relaxed">
