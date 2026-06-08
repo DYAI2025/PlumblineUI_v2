@@ -9,9 +9,11 @@ interface CTAButtonProps {
   className?: string;
   disabled?: boolean;
   ariaLabel?: string;
+  target?: string;
+  rel?: string;
 }
 
-export function CTAButton({ children, onClick, href, variant = "secondary", className, disabled = false, ariaLabel }: CTAButtonProps) {
+export function CTAButton({ children, onClick, href, variant = "secondary", className, disabled = false, ariaLabel, target, rel }: CTAButtonProps) {
   const buttonRef = useRef<HTMLButtonElement | HTMLAnchorElement>(null);
   const [coords, setCoords] = useState({ x: 0, y: 0 });
   const [isHovered, setIsHovered] = useState(false);
@@ -67,6 +69,10 @@ export function CTAButton({ children, onClick, href, variant = "secondary", clas
   };
 
   if (href && !disabled) {
+    const isExternal = /^https?:\/\//.test(href);
+    const resolvedTarget = target ?? (isExternal ? "_blank" : undefined);
+    const resolvedRel = rel ?? (resolvedTarget === "_blank" ? "noreferrer noopener" : undefined);
+
     return (
       <a
         ref={buttonRef as RefObject<HTMLAnchorElement | null>}
@@ -74,6 +80,8 @@ export function CTAButton({ children, onClick, href, variant = "secondary", clas
         className={commonClasses}
         style={style}
         aria-label={ariaLabel}
+        target={resolvedTarget}
+        rel={resolvedRel}
       >
         <span className="relative z-10 flex items-center gap-2">{children}</span>
         {variant !== "ghost" && (

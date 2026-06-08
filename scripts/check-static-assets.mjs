@@ -5,9 +5,30 @@ const root = process.cwd();
 const indexHtml = readFileSync(join(root, "index.html"), "utf8");
 const robots = readFileSync(join(root, "public", "robots.txt"), "utf8");
 const errors = [];
+const assetExtensionPattern = /\.(png|jpg|jpeg|webp|svg|xml)$/i;
 
 function assert(condition, message) {
   if (!condition) errors.push(message);
+}
+
+function parseAttributes(rawAttributes) {
+  const attributes = new Map();
+  const attrPattern = /([:@\w-]+)(?:\s*=\s*(?:"([^"]*)"|'([^']*)'|([^\s"'=<>`]+)))?/g;
+  for (const match of rawAttributes.matchAll(attrPattern)) {
+    const [, rawName, doubleQuoted, singleQuoted, unquoted] = match;
+    const value = doubleQuoted ?? singleQuoted ?? unquoted ?? "";
+    attributes.set(rawName.toLowerCase(), value);
+  }
+  return attributes;
+}
+
+function extractElements(html, tagNames) {
+  const tags = tagNames.join("|");
+  const elementPattern = new RegExp(`<\\s*(${tags})\\b([^>]*)>`, "gi");
+  return [...html.matchAll(elementPattern)].map((match) => ({
+    tagName: match[1].toLowerCase(),
+    attributes: parseAttributes(match[2]),
+  }));
 }
 
 function publicPathFromUrl(url) {
@@ -19,11 +40,14 @@ function publicPathFromUrl(url) {
   return path || "index.html";
 }
 
-const assetUrls = [
-  ...indexHtml.matchAll(/<(?:meta|link)[^>]+(?:content|href)="([^"]+)"[^>]*>/g),
-]
-  .map((match) => match[1])
-  .filter((url) => /\.(png|jpg|jpeg|webp|svg|xml)$/i.test(new URL(url, "https://dyai2025.github.io").pathname));
+function isPublicAssetUrl(url) {
+  return assetExtensionPattern.test(new URL(url, "https://dyai2025.github.io").pathname);
+}
+
+const htmlElements = extractElements(indexHtml, ["meta", "link", "script"]);
+const assetUrls = htmlElements
+  .flatMap(({ attributes }) => [attributes.get("content"), attributes.get("href"), attributes.get("src")])
+  .filter((value) => value && isPublicAssetUrl(value));
 
 for (const url of assetUrls) {
   const publicRel = publicPathFromUrl(url);
@@ -47,10 +71,14 @@ if (sitemapMatch) {
   }
 }
 
-const ogImageMatch = indexHtml.match(/<meta property="og:image" content="([^"]+)"/);
-assert(Boolean(ogImageMatch), "index.html must include og:image");
-if (ogImageMatch) {
-  const ogRel = publicPathFromUrl(ogImageMatch[1]);
+const ogImageElement = htmlElements.find(({ attributes }) =>
+  attributes.get("property") === "og:image" || attributes.get("name") === "og:image"
+);
+assert(Boolean(ogImageElement), "index.html must include og:image");
+const ogImageUrl = ogImageElement?.attributes.get("content");
+assert(Boolean(ogImageUrl), "og:image must include a content attribute");
+if (ogImageUrl) {
+  const ogRel = publicPathFromUrl(ogImageUrl);
   const ogPath = join(root, "public", ogRel);
   assert(existsSync(ogPath), `OG image target is missing: public/${ogRel}`);
   if (existsSync(ogPath)) {
