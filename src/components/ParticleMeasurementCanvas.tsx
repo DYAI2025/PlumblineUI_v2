@@ -90,101 +90,142 @@ export function ParticleMeasurementCanvas({ pointerRef }: ParticleMeasurementCan
 
     window.addEventListener("resize", handleResize);
 
+    let lastTime = performance.now();
+    const fpsInterval = 1000 / 30; // 30fps target interval (~33.33ms)
+
     // Frame update loop
-    const tick = () => {
-      ctx.clearRect(0, 0, width, height);
+    const tick = (timestamp?: number) => {
+      animId = requestAnimationFrame(tick);
 
-      // Draw faint inactive static forensic backing grid
-      ctx.strokeStyle = "rgba(84, 36, 9, 0.08)";
-      ctx.lineWidth = 1;
-      
-      // Draw elastic line measurements bending toward pointer
-      const px = pointerRef.current.x;
-      const py = pointerRef.current.y;
+      const now = timestamp || performance.now();
+      const elapsed = now - lastTime;
 
-      if (!isReduced && width > 768) {
-        // Render 10 horizontal alignment lines bowing subtly near pointer
-        horizontalLineLines.forEach((ly) => {
-          ctx.beginPath();
-          ctx.strokeStyle = Math.abs(py - ly) < 140 ? "rgba(20, 138, 136, 0.2)" : "rgba(84, 36, 9, 0.04)";
-          ctx.moveTo(0, ly);
-          
-          const bendFactor = 250;
-          const distY = Math.abs(py - ly);
-          
-          if (distY < bendFactor) {
-            const pull = (1 - distY / bendFactor) * 20;
-            ctx.quadraticCurveTo(px, ly + (py > ly ? pull : -pull), width, ly);
-          } else {
-            ctx.lineTo(width, ly);
-          }
-          ctx.stroke();
-        });
+      // Only draw and update physics on 30fps interval
+      if (elapsed >= fpsInterval) {
+        lastTime = now - (elapsed % fpsInterval);
 
-        // Render vertical lines bowing subtly near pointer
-        verticalLineLines.forEach((lx) => {
-          ctx.beginPath();
-          ctx.strokeStyle = Math.abs(px - lx) < 140 ? "rgba(20, 138, 136, 0.2)" : "rgba(84, 36, 9, 0.04)";
-          ctx.moveTo(lx, 0);
+        ctx.clearRect(0, 0, width, height);
 
-          const bendFactor = 250;
-          const distX = Math.abs(px - lx);
+        // Draw faint inactive static forensic backing grid
+        ctx.strokeStyle = "rgba(84, 36, 9, 0.08)";
+        ctx.lineWidth = 1;
+        
+        // Draw elastic line measurements bending toward pointer
+        const px = pointerRef.current.x;
+        const py = pointerRef.current.y;
 
-          if (distX < bendFactor) {
-            const pull = (1 - distX / bendFactor) * 20;
-            ctx.quadraticCurveTo(lx + (px > lx ? pull : -pull), py, lx, height);
-          } else {
-            ctx.lineTo(lx, height);
-          }
-          ctx.stroke();
-        });
-      }
+        if (!isReduced && width > 768) {
+          // Render 10 horizontal alignment lines bowing subtly near pointer
+          horizontalLineLines.forEach((ly) => {
+            ctx.beginPath();
+            ctx.strokeStyle = Math.abs(py - ly) < 140 ? "rgba(20, 138, 136, 0.2)" : "rgba(84, 36, 9, 0.04)";
+            ctx.moveTo(0, ly);
+            
+            const bendFactor = 250;
+            const distY = Math.abs(py - ly);
+            
+            if (distY < bendFactor) {
+              const pull = (1 - distY / bendFactor) * 20;
+              ctx.quadraticCurveTo(px, ly + (py > ly ? pull : -pull), width, ly);
+            } else {
+              ctx.lineTo(width, ly);
+            }
+            ctx.stroke();
+          });
 
-      // Render flowing or static particles
-      particles.forEach((p) => {
-        if (!isReduced) {
-          // Physics updates - float particles
-          p.x += p.vx;
-          p.y += p.vy;
+          // Render vertical lines bowing subtly near pointer
+          verticalLineLines.forEach((lx) => {
+            ctx.beginPath();
+            ctx.strokeStyle = Math.abs(px - lx) < 140 ? "rgba(20, 138, 136, 0.2)" : "rgba(84, 36, 9, 0.04)";
+            ctx.moveTo(lx, 0);
 
-          // Wrap boundaries
-          if (p.x < 0) p.x = width;
-          if (p.x > width) p.x = 0;
-          if (p.y < 0) p.y = height;
-          if (p.y > height) p.y = 0;
+            const bendFactor = 250;
+            const distX = Math.abs(px - lx);
 
-          // Gravitational pull toward mouse pointer
-          const dx = px - p.x;
-          const dy = py - p.y;
-          const distance = Math.sqrt(dx * dx + dy * dy);
+            if (distX < bendFactor) {
+              const pull = (1 - distX / bendFactor) * 20;
+              ctx.quadraticCurveTo(lx + (px > lx ? pull : -pull), py, lx, height);
+            } else {
+              ctx.lineTo(lx, height);
+            }
+            ctx.stroke();
+          });
+        }
 
-          // Standard distance pull (black-hole orbit radius)
-          if (distance < 280) {
-            const force = (280 - distance) * 0.0001;
-            p.vx += dx * force;
-            p.vy += dy * force;
+        // Render flowing or static particles
+        particles.forEach((p) => {
+          if (!isReduced) {
+            // Physics updates - float particles
+            p.x += p.vx;
+            p.y += p.vy;
 
-            // Cap velocity
-            const maxSpeed = 1.35;
+            // Wrap boundaries
+            if (p.x < 0) p.x = width;
+            if (p.x > width) p.x = 0;
+            if (p.y < 0) p.y = height;
+            if (p.y > height) p.y = 0;
+
+            // Gravitational pull toward mouse pointer
+            const dx = px - p.x;
+            const dy = py - p.y;
+            const distance = Math.sqrt(dx * dx + dy * dy);
+
+            // Standard space bend (black-hole orbit radius)
+            if (distance < 280) {
+              const pullForce = (280 - distance) * 0.00008;
+              const orbitForce = (280 - distance) * 0.00012;
+
+              // Direct inward pull
+              p.vx += dx * pullForce;
+              p.vy += dy * pullForce;
+
+              // Tangential pull resulting in orbital curves (perpendicular vector)
+              p.vx += -dy * orbitForce;
+              p.vy += dx * orbitForce;
+            }
+
+            // Subtle gravity well effect pulling particles toward the central plumbline (x = width / 2) and center bob (height * 0.35)
+            const cx = width / 2;
+            const cy = height * 0.35;
+            const dcx = cx - p.x;
+            const dcy = cy - p.y;
+            const distCenter = Math.sqrt(dcx * dcx + dcy * dcy);
+
+            if (distCenter > 10) {
+              // Gentle pulling toward center plumb-bob point
+              const centerPull = 0.000012;
+              p.vx += dcx * centerPull;
+              p.vy += dcy * centerPull;
+            }
+
+            // Also horizontal pull towards the vertical line chord
+            const dxLine = cx - p.x;
+            const linePull = 0.000008;
+            p.vx += dxLine * linePull;
+
+            // Apply friction/drag to prevent static buildup and keep movement smooth
+            p.vx *= 0.985;
+            p.vy *= 0.985;
+
+            // Cap velocity to maintain elegant aesthetic
+            const maxSpeed = 1.4;
             const speed = Math.sqrt(p.vx * p.vx + p.vy * p.vy);
             if (speed > maxSpeed) {
               p.vx = (p.vx / speed) * maxSpeed;
               p.vy = (p.vy / speed) * maxSpeed;
             }
           }
-        }
 
-        // Draw particle representation
-        ctx.fillStyle = p.color;
-        ctx.shadowBlur = p.color === colorFocusGold ? 4 : 0;
-        ctx.shadowColor = p.color === colorFocusGold ? "rgba(213, 137, 27, 0.5)" : "transparent";
-        ctx.beginPath();
-        ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
-        ctx.fill();
-        ctx.shadowBlur = 0; // reset
-      });
-
-      animId = requestAnimationFrame(tick);
+          // Draw particle representation
+          ctx.fillStyle = p.color;
+          ctx.shadowBlur = p.color === colorFocusGold ? 4 : 0;
+          ctx.shadowColor = p.color === colorFocusGold ? "rgba(213, 137, 27, 0.5)" : "transparent";
+          ctx.beginPath();
+          ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+          ctx.fill();
+          ctx.shadowBlur = 0; // reset
+        });
+      }
     };
 
     tick();

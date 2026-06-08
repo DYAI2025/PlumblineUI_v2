@@ -1,5 +1,6 @@
 import { ReactNode } from "react";
 import { usePointer } from "../hooks/usePointer";
+import { useReducedMotion } from "../hooks/useReducedMotion";
 import { ParticleMeasurementCanvas } from "./ParticleMeasurementCanvas";
 import { PlumblineScene } from "./PlumblineScene";
 import { GravityCursor } from "./GravityCursor";
@@ -11,6 +12,7 @@ interface GravityInteractionLayerProps {
 export function GravityInteractionLayer({ children }: GravityInteractionLayerProps) {
   // Shared performant coordinates ref
   const pointerRef = usePointer();
+  const isReduced = useReducedMotion();
 
   return (
     <div className="site-shell relative min-h-screen w-full bg-void text-teal overflow-hidden">
@@ -31,7 +33,7 @@ export function GravityInteractionLayer({ children }: GravityInteractionLayerPro
       <div className="dust-particle" style={{ top: "85%", left: "90%" }} />
 
       {/* 5. Global particles canvas coordinates */}
-      <ParticleMeasurementCanvas pointerRef={pointerRef} />
+      {!isReduced && <ParticleMeasurementCanvas pointerRef={pointerRef} />}
 
       {/* 4. Heavy steel central plumbline simulation */}
       <PlumblineScene pointerRef={pointerRef} />
