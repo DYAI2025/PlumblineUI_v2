@@ -34,6 +34,10 @@ export function usePendulumPhysics({
   const isDragging = useRef(false);
   const hasSetCursor = useRef<"grab" | "grabbing" | null>(null);
 
+  // Active interaction tracking to prevent grabbing unless click starts on target
+  const canInteractRef = useRef(false);
+  const isClickingBob = useRef(false);
+
   // Core physics parameters stored in a stable ref to prevent per-frame garbage collector run
   const physicalState = useRef({
     thetaX: 0,
@@ -66,11 +70,15 @@ export function usePendulumPhysics({
         }
       }
       isMouseDown.current = true;
+      if (canInteractRef.current) {
+        isClickingBob.current = true;
+      }
     };
 
     const handleUp = () => {
       isMouseDown.current = false;
       isDragging.current = false;
+      isClickingBob.current = false;
     };
 
     const preventSelect = (e: Event) => {
@@ -135,6 +143,7 @@ export function usePendulumPhysics({
 
     // High fidelity interaction: can grab if either intersecting the 3D model or within the proximity field
     const canInteract = isIntersected || distance2D < grabThreshold;
+    canInteractRef.current = canInteract;
 
     // Dynamically toggle pointer-events on the canvas and its container
     const container = gl.domElement.parentElement;
@@ -177,8 +186,8 @@ export function usePendulumPhysics({
       pos.alphaY = 0;
       isDragging.current = false;
     } else {
-      // Catch click/grab moment trigger
-      if (isMouseDown.current && !isDragging.current && canInteract) {
+      // Trigger dragging ONLY when the mouse click originally started on the Bob itself!
+      if (isClickingBob.current && !isDragging.current) {
         isDragging.current = true;
       }
 
@@ -186,8 +195,10 @@ export function usePendulumPhysics({
         // Drag logic: compute angular target orientation so bob aligns directly with mouse coords
         // Clamp dragging angle bounds (+/- 75 degrees) to prevent complete loop-the-loop flips
         const targetThetaX = Math.max(-1.3, Math.min(1.3, Math.atan2(targetX, anchorY - targetY)));
-        // Touch or slide-drag maps cleanly on X, flat projection in plane Z=0
-        const targetThetaY = 0;
+        
+        // Map vertical drag motion into depth (thetaY / Z swing)
+        const verticalDelta = targetY - restY;
+        const targetThetaY = Math.max(-1.3, Math.min(1.3, (verticalDelta / cordLength) * 1.6));
 
         // Solve angular velocity based on dragging displacement rate dt
         if (dt > 0) {
@@ -210,21 +221,14 @@ export function usePendulumPhysics({
         const zCur = cordLength * Math.sin(pos.thetaY);
         currentBobPos.set(xCur, yCur, zCur);
 
-        // Calculate active cursor attraction force at current position
-        const cursorForce = getCursorForce(pointerRef.current.x, pointerRef.current.y, currentBobPos, isMobile);
-
-        // Restore gravity pendulum pull
+        // Natural pendulum gravity pull (conforming to a spherical surface deflection)
         const g = 14.5; // Constant standard gravity
         const gAccelX = -(g / cordLength) * Math.sin(pos.thetaX);
         const gAccelY = -(g / cordLength) * Math.sin(pos.thetaY);
 
-        // Project cursor forces onto angular tangent components (energy transfer)
-        const extAccelX = (cursorForce.x * Math.cos(pos.thetaX) + cursorForce.y * Math.sin(pos.thetaX) * Math.cos(pos.thetaY)) / cordLength;
-        const extAccelY = (cursorForce.y * Math.cos(pos.thetaX) * Math.sin(pos.thetaY) + cursorForce.z * Math.cos(pos.thetaY)) / cordLength;
-
-        // Combined initial accelerations
-        const alphaX_t = gAccelX + extAccelX;
-        const alphaY_t = gAccelY + extAccelY;
+        // Combined initial accelerations (with zero external magnetic pull since we want natural, non-sticking swings)
+        const alphaX_t = gAccelX;
+        const alphaY_t = gAccelY;
 
         // Path prediction step
         const dtSq = dt * dt;
@@ -236,25 +240,14 @@ export function usePendulumPhysics({
         pos.thetaY = Math.max(-1.42, Math.min(1.42, pos.thetaY));
 
         // Evaluate model accelerations of the new predicted state
-        const xNew = cordLength * Math.sin(pos.thetaX);
-        const yNew = anchorY - cordLength * Math.cos(pos.thetaX) * Math.cos(pos.thetaY);
-        const zNew = cordLength * Math.sin(pos.thetaY);
-        currentBobPos.set(xNew, yNew, zNew);
-
-        // Calculate active cursor attraction force at predicated next position
-        const nextCursorForce = getCursorForce(pointerRef.current.x, pointerRef.current.y, currentBobPos, isMobile);
-
         const nextGAccelX = -(g / cordLength) * Math.sin(pos.thetaX);
         const nextGAccelY = -(g / cordLength) * Math.sin(pos.thetaY);
 
-        const nextExtAccelX = (nextCursorForce.x * Math.cos(pos.thetaX) + nextCursorForce.y * Math.sin(pos.thetaX) * Math.cos(pos.thetaY)) / cordLength;
-        const nextExtAccelY = (nextCursorForce.y * Math.cos(pos.thetaX) * Math.sin(pos.thetaY) + nextCursorForce.z * Math.cos(pos.thetaY)) / cordLength;
-
-        const alphaX_next = nextGAccelX + nextExtAccelX;
-        const alphaY_next = nextGAccelY + nextExtAccelY;
+        const alphaX_next = nextGAccelX;
+        const alphaY_next = nextGAccelY;
 
         // Compute natural physical medium damping (higher damping makes swing die to rest beautifully)
-        const frameDampingFactor = Math.pow(0.985, dt * 60);
+        const frameDampingFactor = Math.pow(0.992, dt * 60);
 
         // Correct velocity using predicted average forces
         pos.omegaX = (pos.omegaX + 0.5 * (pos.alphaX + alphaX_next) * dt) * frameDampingFactor;

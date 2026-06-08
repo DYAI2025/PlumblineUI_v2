@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { cn } from "./utils/cn";
 import { sections } from "./content";
 import { useSectionObserver } from "./hooks/useSectionObserver";
 import { GravityInteractionLayer } from "./components/GravityInteractionLayer";
@@ -70,6 +71,8 @@ export default function App() {
     approved: false,
     done: false,
   });
+
+  const [warningHovered, setWarningHovered] = useState(false);
 
   const toggleWord = (word: string) => {
     setActiveWords((prev) => ({
@@ -617,53 +620,98 @@ export default function App() {
             </div>
 
             {/* Bento Grid layout of diverse features */}
-            <div className="grid grid-cols-1 md:grid-cols-6 lg:grid-cols-6 gap-6">
+            <div className="grid grid-cols-1 sm:grid-cols-6 gap-6">
               <FeatureCard
                 cmdOrName="/agileteam"
                 title="Autonomous Delivery Pipeline"
                 description="Manages complete task progressions: requirements → PRD → TDD → review → security → validation → human acceptance."
-                className="md:col-span-3 lg:col-span-3"
+                className="col-span-1 sm:col-span-3 lg:col-span-3"
               />
               <FeatureCard
                 cmdOrName="/concilium"
                 title="Four-Body Council"
                 description="Market, Tech, Skeptic, and Distribution agents stress-test ideas inside Claude Code before consuming tokens."
-                className="md:col-span-3 lg:col-span-3"
+                className="col-span-1 sm:col-span-3 lg:col-span-3"
               />
               <FeatureCard
                 cmdOrName="Reality Ledger"
                 title="Rigorous Evidence Classes"
                 description="Each requirement receives an explicit evidence class matching reality boundaries. Fake mocks remain fake."
-                className="md:col-span-2 lg:col-span-2"
+                className="col-span-1 sm:col-span-3 lg:col-span-2"
               />
               <FeatureCard
                 cmdOrName="Honest Status"
                 title="Command for Truth"
                 description="Expose what complies and what remains unverified. Perfect for direct structural evaluation audits."
-                className="md:col-span-2 lg:col-span-2"
+                className="col-span-1 sm:col-span-3 lg:col-span-2"
               />
               <FeatureCard
                 cmdOrName="Agent Explorer"
                 title="Zero-Install Inspector"
                 description="Browser console interface to study dynamic capability limits, triggers, source code, and security rules."
-                className="md:col-span-2 lg:col-span-2"
+                className="col-span-1 sm:col-span-6 lg:col-span-2"
               />
               {/* Extra technical card to balance grid with consistent forensic GlassPanel styling */}
-              <GlassPanel
-                isInteractive={false}
-                className="md:col-span-6 lg:col-span-6 flex flex-col justify-between font-mono text-[10px] text-bronze h-full min-h-[150px]"
+              <div
+                onMouseEnter={() => setWarningHovered(true)}
+                onMouseLeave={() => setWarningHovered(false)}
+                className="col-span-1 sm:col-span-6 lg:col-span-6 relative group transition-all duration-300 transform hover:-translate-y-0.5 h-full"
               >
-                <div className="space-y-2">
-                  <span className="text-gold uppercase tracking-widest font-black block text-xs">SYSTEM OVERKILL WARNING</span>
-                  <p className="font-sans text-teal/70 leading-relaxed text-xs">
-                    This structure is built specifically for auditable human-agent software systems where confidence theater is a project hazard.
-                  </p>
-                </div>
-                <div className="pt-4 border-t border-umber/45 mt-4 flex justify-between items-center uppercase tracking-widest text-bronze text-[8px]">
-                  <span>AUDITABLE ENGINE LOGS // ACTIVE</span>
-                  <span className="text-gold font-bold">READY_</span>
-                </div>
-              </GlassPanel>
+                <GlassPanel
+                  isInteractive={true}
+                  className="flex flex-col justify-between font-mono text-[10px] text-bronze h-full min-h-[160px] overflow-hidden relative p-6"
+                >
+                  {/* Sliding laser scanner line */}
+                  <div
+                    className={cn(
+                      "absolute left-0 w-full h-[1.5px] bg-gradient-to-r from-transparent via-gold/50 to-transparent pointer-events-none transition-all duration-1000 ease-in-out",
+                      warningHovered ? "top-[95%] opacity-100" : "top-0 opacity-0"
+                    )}
+                  />
+
+                  <div className="space-y-3">
+                    <div className="flex justify-between items-start gap-4">
+                      <span className="text-gold uppercase tracking-widest font-black block text-xs">SYSTEM OVERKILL WARNING</span>
+                      <span className="font-mono text-[8px] text-gold bg-gold/10 px-2 py-0.5 border border-gold/25 rounded">
+                        ALRT_HEUR_09
+                      </span>
+                    </div>
+
+                    {/* Micro Forensic Divider */}
+                    <div className="flex items-center gap-1.5 opacity-70">
+                      <div className="h-[1px] flex-1 bg-gradient-to-r from-teal/40 via-gold/10 to-transparent" />
+                      <span className="text-[7px] font-mono text-bronze tracking-widest uppercase">SYS_OVERKILL</span>
+                      <div className="w-1.5 h-1.5 rounded-full bg-gold/60 animate-pulse" />
+                    </div>
+
+                    <p className="font-sans text-teal/70 leading-relaxed text-xs">
+                      This structure is built specifically for auditable human-agent software systems where confidence theater is a project hazard.
+                    </p>
+                  </div>
+
+                  {/* Forensic metadata logs section revealed on hover */}
+                  <div className="mt-5 pt-3 border-t border-umber/40 font-mono text-[9px] relative overflow-hidden h-14">
+                    <div
+                      className={`space-y-1 transition-all duration-500 transform ${
+                        warningHovered ? "translate-y-0 opacity-100" : "translate-y-2 opacity-60"
+                      }`}
+                    >
+                      <div className="flex justify-between text-bronze">
+                        <span>COMPORT // CH:</span>
+                        <span className="text-teal font-semibold">AUDIT_LOGGER</span>
+                      </div>
+                      <div className="flex justify-between text-bronze">
+                        <span>EVIDENCE PATH:</span>
+                        <span className="text-teal font-semibold">HEURISTIC_OVERKILL_WALL</span>
+                      </div>
+                      <div className="flex justify-between text-bronze text-[8px] uppercase tracking-widest pt-1 border-t border-umber/10 mt-1">
+                        <span>AUDITABLE ENGINE LOGS // ACTIVE</span>
+                        <span className="text-gold font-bold">READY_</span>
+                      </div>
+                    </div>
+                  </div>
+                </GlassPanel>
+              </div>
             </div>
           </div>
         </section>
