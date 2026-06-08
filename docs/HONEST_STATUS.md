@@ -21,10 +21,11 @@ That command runs TypeScript checking, a production build, a moderate-level npm 
 - The install section includes a visible “Before You Run /agileteam” preflight warning.
 - The 3D plumbline layer is lazy-loaded and does not mount for reduced-motion users.
 - CI configuration exists for local-equivalent static-site governance checks.
+- Railway configuration now declares a Railpack build, static start command, healthcheck path, and restart policy.
 
 ## Not verified here
 
-- No production deployment has been observed.
+- No production deployment has been observed, including no live Railway deployment.
 - No live GitHub Actions run has been observed in this local environment.
 - No Lighthouse run has been executed.
 - No browser automation or axe accessibility audit has been executed.
@@ -34,5 +35,6 @@ That command runs TypeScript checking, a production build, a moderate-level npm 
 ## Remaining follow-up risks
 
 - The current bundle budget intentionally permits the existing large 3D-enabled build ceiling so this stabilization can pass; the target should be lowered after deeper code splitting or lighter visual alternatives.
+- Railway compatibility is configured for a single static web service; a future backend/API would need a separate service design rather than being added implicitly to this UI service.
 - External links are not network-validated in CI yet.
 - The UI remains mostly hardcoded in `src/App.tsx`; deeper content-model consolidation remains a separate maintainability task.
