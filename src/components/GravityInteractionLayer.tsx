@@ -1,9 +1,14 @@
-import { ReactNode } from "react";
+import { ReactNode, Suspense, lazy } from "react";
 import { usePointer } from "../hooks/usePointer";
 import { useReducedMotion } from "../hooks/useReducedMotion";
 import { ParticleMeasurementCanvas } from "./ParticleMeasurementCanvas";
-import { Plumbline3DScene } from "./plumbline3d/Plumbline3DScene";
 import { GravityCursor } from "./GravityCursor";
+
+const Plumbline3DScene = lazy(() =>
+  import("./plumbline3d/Plumbline3DScene").then((module) => ({
+    default: module.Plumbline3DScene,
+  }))
+);
 
 interface GravityInteractionLayerProps {
   children: ReactNode;
@@ -35,13 +40,17 @@ export function GravityInteractionLayer({ children }: GravityInteractionLayerPro
       {/* 5. Global particles canvas coordinates */}
       {!isReduced && <ParticleMeasurementCanvas pointerRef={pointerRef} />}
 
-      {/* 4. Heavy steel central plumbline simulation */}
-      <Plumbline3DScene pointerRef={pointerRef} />
+      {/* 6. Heavy steel central plumbline simulation: lazy-loaded and disabled for reduced motion. */}
+      {!isReduced && (
+        <Suspense fallback={null}>
+          <Plumbline3DScene pointerRef={pointerRef} />
+        </Suspense>
+      )}
 
-      {/* 5. Custom cursor event-focus lens */}
+      {/* 7. Custom cursor event-focus lens */}
       <GravityCursor pointerRef={pointerRef} />
 
-      {/* 6. High-intensity content layer */}
+      {/* 8. High-intensity content layer */}
       <div className="relative z-10 w-full min-h-screen">
         {children}
       </div>

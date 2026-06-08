@@ -806,6 +806,19 @@ export default function App() {
               </p>
             </div>
 
+            {/* Start-safety preflight */}
+            <div className="p-5 bg-depth-teal/25 border border-gold/45 rounded space-y-3 shadow-[0_0_30px_rgba(213,137,27,0.08)]">
+              <div className="font-mono text-[10px] text-gold uppercase tracking-widest font-extrabold">
+                Before You Run /agileteam
+              </div>
+              <p className="font-sans text-sm text-teal/85 leading-relaxed">
+                Do not start with coding. A PRD alone is not enough if Product Vision is missing. Confirm the Product Vision, Product Canvas, PRD, acceptance criteria, and evidence gates before asking agents to implement.
+              </p>
+              <p className="font-sans text-xs text-bronze leading-relaxed">
+                If the team reduces scope, the reduced slice may be useful, but the original goal remains <span className="text-gold font-bold">not done</span> until the original acceptance criteria and evidence gates are satisfied.
+              </p>
+            </div>
+
             {/* Side-by-side terminal configuration */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-start">
               <div className="space-y-4">
@@ -843,7 +856,7 @@ export default function App() {
                 Open GitHub Repository
               </CTAButton>
               <CTAButton variant="secondary" onClick={() => handleNavScroll("machine")}>
-                Launch Agent Explorer
+                View Machine Room
               </CTAButton>
             </div>
           </div>
@@ -886,8 +899,8 @@ export default function App() {
                   </p>
                 </div>
                 <div className="pt-6">
-                  <CTAButton variant="secondary" className="w-full" href="https://github.com/DYAI2025/Plumbline">
-                    Support
+                  <CTAButton variant="secondary" className="w-full" disabled ariaLabel="Sponsor link pending for Haiku Supporter">
+                    Sponsor link pending
                   </CTAButton>
                 </div>
               </GlassPanel>
@@ -904,8 +917,8 @@ export default function App() {
                   </p>
                 </div>
                 <div className="pt-6">
-                  <CTAButton variant="primary" className="w-full" href="https://github.com/DYAI2025/Plumbline">
-                    SUPPORT CORE
+                  <CTAButton variant="primary" className="w-full" disabled ariaLabel="Sponsor link pending for Opus Validator">
+                    Sponsor link pending
                   </CTAButton>
                 </div>
               </GlassPanel>
@@ -922,8 +935,8 @@ export default function App() {
                   </p>
                 </div>
                 <div className="pt-6">
-                  <CTAButton variant="secondary" className="w-full" href="https://github.com/DYAI2025/Plumbline">
-                    Partner
+                  <CTAButton variant="secondary" className="w-full" disabled ariaLabel="Sponsor link pending for Enterprise Governance">
+                    Partner link pending
                   </CTAButton>
                 </div>
               </GlassPanel>
@@ -931,7 +944,7 @@ export default function App() {
 
             {/* Disclaimer strip */}
             <div className="p-4 bg-depth-teal/20 border border-umber text-center font-mono text-[9px] text-bronze uppercase tracking-widest leading-relaxed">
-              Disclaimer: Sponsorship supports an open-source project. It is not an SLA, a paid product, or a feature guarantee.
+              Disclaimer: Sponsorship supports an open-source project. It is not an SLA, a paid product, or a feature guarantee. Payment links are pending until a real sponsorship destination is provided.
             </div>
           </div>
         </section>

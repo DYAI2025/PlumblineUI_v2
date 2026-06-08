@@ -7,9 +7,13 @@ interface CTAButtonProps {
   href?: string;
   variant?: "primary" | "secondary" | "ghost";
   className?: string;
+  disabled?: boolean;
+  ariaLabel?: string;
+  target?: string;
+  rel?: string;
 }
 
-export function CTAButton({ children, onClick, href, variant = "secondary", className }: CTAButtonProps) {
+export function CTAButton({ children, onClick, href, variant = "secondary", className, disabled = false, ariaLabel, target, rel }: CTAButtonProps) {
   const buttonRef = useRef<HTMLButtonElement | HTMLAnchorElement>(null);
   const [coords, setCoords] = useState({ x: 0, y: 0 });
   const [isHovered, setIsHovered] = useState(false);
@@ -55,6 +59,7 @@ export function CTAButton({ children, onClick, href, variant = "secondary", clas
   const commonClasses = cn(
     "relative inline-flex items-center justify-center px-6 py-3 font-mono text-xs uppercase tracking-widest font-semibold transition-all duration-300 ease-out focus:outline-none focus:ring-1 focus:ring-gold focus:ring-offset-1 focus:ring-offset-void select-none cursor-pointer",
     variantStyles[variant],
+    disabled && "cursor-not-allowed opacity-60 hover:bg-transparent hover:border-teal/40",
     className
   );
 
@@ -63,13 +68,20 @@ export function CTAButton({ children, onClick, href, variant = "secondary", clas
     transition: isHovered ? "transform 0.1s ease-out" : "transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275)"
   };
 
-  if (href) {
+  if (href && !disabled) {
+    const isExternal = /^https?:\/\//.test(href);
+    const resolvedTarget = target ?? (isExternal ? "_blank" : undefined);
+    const resolvedRel = rel ?? (resolvedTarget === "_blank" ? "noreferrer noopener" : undefined);
+
     return (
       <a
         ref={buttonRef as RefObject<HTMLAnchorElement | null>}
         href={href}
         className={commonClasses}
         style={style}
+        aria-label={ariaLabel}
+        target={resolvedTarget}
+        rel={resolvedRel}
       >
         <span className="relative z-10 flex items-center gap-2">{children}</span>
         {variant !== "ghost" && (
@@ -82,9 +94,12 @@ export function CTAButton({ children, onClick, href, variant = "secondary", clas
   return (
     <button
       ref={buttonRef as RefObject<HTMLButtonElement | null>}
-      onClick={onClick}
+      onClick={disabled ? undefined : onClick}
       className={commonClasses}
       style={style}
+      disabled={disabled}
+      aria-disabled={disabled}
+      aria-label={ariaLabel}
     >
       <span className="relative z-10 flex items-center gap-2">{children}</span>
       {variant !== "ghost" && (
