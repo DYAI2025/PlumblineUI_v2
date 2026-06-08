@@ -1,0 +1,43 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630" role="img" aria-labelledby="title desc">
+  <title id="title">Plumbline — Evidence-first agent framework for Claude Code</title>
+  <desc id="desc">Dark editorial social preview with a gold plumb line and evidence-first messaging.</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#030405"/>
+      <stop offset="0.55" stop-color="#062225"/>
+      <stop offset="1" stop-color="#17110d"/>
+    </linearGradient>
+    <radialGradient id="glow" cx="50%" cy="48%" r="45%">
+      <stop offset="0" stop-color="#d5891b" stop-opacity="0.32"/>
+      <stop offset="0.45" stop-color="#d5891b" stop-opacity="0.10"/>
+      <stop offset="1" stop-color="#d5891b" stop-opacity="0"/>
+    </radialGradient>
+    <pattern id="grid" width="48" height="48" patternUnits="userSpaceOnUse">
+      <path d="M48 0H0v48" fill="none" stroke="#74f7e5" stroke-opacity="0.08" stroke-width="1"/>
+    </pattern>
+  </defs>
+
+  <rect width="1200" height="630" fill="url(#bg)"/>
+  <rect width="1200" height="630" fill="url(#grid)"/>
+  <circle cx="600" cy="300" r="290" fill="url(#glow)"/>
+
+  <line x1="600" y1="74" x2="600" y2="430" stroke="#d5891b" stroke-width="5" stroke-linecap="round"/>
+  <circle cx="600" cy="74" r="15" fill="#d5891b"/>
+  <path d="M600 430 C555 430 528 476 551 516 C573 556 627 556 649 516 C672 476 645 430 600 430Z" fill="#d5891b"/>
+  <circle cx="600" cy="505" r="18" fill="#17110d" opacity="0.85"/>
+
+  <text x="92" y="126" fill="#d5891b" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="26" font-weight="800" letter-spacing="5">PLUMBLINE</text>
+  <text x="92" y="228" fill="#d6fffa" font-family="Inter, Arial, sans-serif" font-size="64" font-weight="900" letter-spacing="-2">Evidence-first</text>
+  <text x="92" y="302" fill="#d6fffa" font-family="Inter, Arial, sans-serif" font-size="64" font-weight="900" letter-spacing="-2">agent framework</text>
+  <text x="92" y="370" fill="#d5891b" font-family="Inter, Arial, sans-serif" font-size="42" font-weight="800">for Claude Code</text>
+
+  <text x="92" y="472" fill="#99cfc7" font-family="Inter, Arial, sans-serif" font-size="28">Separates “looks done” from “is done”.</text>
+  <text x="92" y="518" fill="#99cfc7" font-family="Inter, Arial, sans-serif" font-size="24">Reality Ledger QA · Evidence classes · Human-confirmed value</text>
+
+  <rect x="790" y="112" width="318" height="86" rx="16" fill="#031f22" stroke="#74f7e5" stroke-opacity="0.28"/>
+  <text x="820" y="164" fill="#74f7e5" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="22" font-weight="800">NO FAKE DONE</text>
+
+  <rect x="792" y="428" width="316" height="90" rx="16" fill="#17110d" stroke="#d5891b" stroke-opacity="0.45"/>
+  <text x="822" y="462" fill="#d5891b" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="18" font-weight="800">BOUNDARY PROOF</text>
+  <text x="822" y="493" fill="#d6fffa" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="18">required before done</text>
+</svg>

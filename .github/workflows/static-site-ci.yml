@@ -1,0 +1,29 @@
+name: Static Site CI
+
+on:
+  pull_request:
+  push:
+    branches: [main, master]
+
+jobs:
+  static-site-governance:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+      - run: npm ci
+      - run: npm run lint
+      - run: npm run build
+      - run: npm audit --audit-level=moderate
+      - run: npm run check:no-binary
+      - run: npm run check:assets
+      - run: npm run check:cta
+      - run: npm run check:bundle
+      - uses: actions/upload-artifact@v4
+        if: success()
+        with:
+          name: plumblineui-dist
+          path: dist

@@ -1,6 +1,6 @@
 {
-  "name": "Plumbline",
-  "description": "Evidence-first agent framework for Claude Code website with high-end editorial layouts and interactive gravity physics.",
+  "name": "PlumblineUI v2",
+  "description": "Static Vite/React marketing site for the Plumbline evidence-first agent framework for Claude Code.",
   "requestFramePermissions": [],
-  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+  "majorCapabilities": ["STATIC_SITE"]
 }
