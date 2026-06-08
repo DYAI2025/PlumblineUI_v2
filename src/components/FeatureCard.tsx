@@ -56,7 +56,15 @@ export function FeatureCard({ title, cmdOrName, description, className }: Featur
       onMouseLeave={() => setIsHovered(false)}
       className={cn("relative group transition-all duration-300 transform hover:-translate-y-0.5 h-full", className)}
     >
-      <GlassPanel className="h-full flex flex-col justify-between" isInteractive={true}>
+      <GlassPanel className="h-full flex flex-col justify-between overflow-hidden relative" isInteractive={true}>
+        {/* Sliding laser scanner line */}
+        <div
+          className={cn(
+            "absolute left-0 w-full h-[1.5px] bg-gradient-to-r from-transparent via-gold/50 to-transparent pointer-events-none transition-all duration-1000 ease-in-out",
+            isHovered ? "top-[95%] opacity-100" : "top-0 opacity-0"
+          )}
+        />
+
         <div className="space-y-3">
           {/* Header */}
           <div className="flex justify-between items-start gap-4">
@@ -64,6 +72,13 @@ export function FeatureCard({ title, cmdOrName, description, className }: Featur
               {cmdOrName}
             </span>
             <div className="p-1 rounded bg-depth-teal/30">{getIcon()}</div>
+          </div>
+
+          {/* Micro Forensic Divider */}
+          <div className="flex items-center gap-1.5 opacity-70">
+            <div className="h-[1px] flex-1 bg-gradient-to-r from-teal/40 via-gold/10 to-transparent" />
+            <span className="text-[7px] font-mono text-bronze tracking-widest uppercase">SYS_AUDIT</span>
+            <div className="w-1.5 h-1.5 rounded-full bg-gold/60 animate-pulse" />
           </div>
 
           {/* Title and Description */}
@@ -81,11 +96,11 @@ export function FeatureCard({ title, cmdOrName, description, className }: Featur
         <div className="mt-5 pt-3 border-t border-umber/40 font-mono text-[9px] relative overflow-hidden h-14">
           <div
             className={`space-y-1 transition-all duration-500 transform ${
-              isHovered ? "translate-y-0 opacity-100" : "translate-y-2 opacity-40"
+              isHovered ? "translate-y-0 opacity-100" : "translate-y-2 opacity-60"
             }`}
           >
             <div className="flex justify-between text-bronze">
-              <span>SOURCE CHANNEL:</span>
+              <span>COMPORT // CH:</span>
               <span className="text-teal font-semibold">{meta.channel}</span>
             </div>
             <div className="flex justify-between text-bronze">
@@ -93,7 +108,7 @@ export function FeatureCard({ title, cmdOrName, description, className }: Featur
               <span className="text-teal font-semibold">{meta.path}</span>
             </div>
             <div className="flex justify-between text-bronze">
-              <span>BOUNDARY GATE:</span>
+              <span>INTEG // OK:</span>
               <span className="text-gold font-bold">{meta.gate}</span>
             </div>
           </div>

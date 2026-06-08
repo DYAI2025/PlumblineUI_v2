@@ -17,7 +17,7 @@ export function usePendulumPhysics({
   lineMesh,
   glowLightRef,
 }: UsePendulumPhysicsProps) {
-  const { size, viewport } = useThree();
+  const { size, viewport, gl } = useThree();
   const isReduced = useReducedMotion();
   const { get3DWorldPosition, getCursorForce, checkIntersection } = useCursorRaycast();
 
@@ -135,6 +135,18 @@ export function usePendulumPhysics({
 
     // High fidelity interaction: can grab if either intersecting the 3D model or within the proximity field
     const canInteract = isIntersected || distance2D < grabThreshold;
+
+    // Dynamically toggle pointer-events on the canvas and its container
+    const container = gl.domElement.parentElement;
+    if (container) {
+      if (canInteract || isDragging.current) {
+        container.style.pointerEvents = "auto";
+        gl.domElement.style.pointerEvents = "auto";
+      } else {
+        container.style.pointerEvents = "none";
+        gl.domElement.style.pointerEvents = "none";
+      }
+    }
 
     // Handle Grab/Hover Cursor Updates beautifully
     if (isDragging.current) {

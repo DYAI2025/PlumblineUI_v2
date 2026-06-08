@@ -617,30 +617,30 @@ export default function App() {
             </div>
 
             {/* Bento Grid layout of diverse features */}
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-6 gap-6">
+            <div className="grid grid-cols-1 md:grid-cols-6 lg:grid-cols-6 gap-6">
               <FeatureCard
                 cmdOrName="/agileteam"
                 title="Autonomous Delivery Pipeline"
                 description="Manages complete task progressions: requirements → PRD → TDD → review → security → validation → human acceptance."
-                className="md:col-span-1 lg:col-span-3"
+                className="md:col-span-3 lg:col-span-3"
               />
               <FeatureCard
                 cmdOrName="/concilium"
                 title="Four-Body Council"
                 description="Market, Tech, Skeptic, and Distribution agents stress-test ideas inside Claude Code before consuming tokens."
-                className="md:col-span-1 lg:col-span-3"
+                className="md:col-span-3 lg:col-span-3"
               />
               <FeatureCard
                 cmdOrName="Reality Ledger"
                 title="Rigorous Evidence Classes"
                 description="Each requirement receives an explicit evidence class matching reality boundaries. Fake mocks remain fake."
-                className="md:col-span-1 lg:col-span-2"
+                className="md:col-span-2 lg:col-span-2"
               />
               <FeatureCard
                 cmdOrName="Honest Status"
                 title="Command for Truth"
                 description="Expose what complies and what remains unverified. Perfect for direct structural evaluation audits."
-                className="md:col-span-1 lg:col-span-2"
+                className="md:col-span-2 lg:col-span-2"
               />
               <FeatureCard
                 cmdOrName="Agent Explorer"
@@ -651,7 +651,7 @@ export default function App() {
               {/* Extra technical card to balance grid with consistent forensic GlassPanel styling */}
               <GlassPanel
                 isInteractive={false}
-                className="md:col-span-2 lg:col-span-6 flex flex-col justify-between font-mono text-[10px] text-bronze h-full min-h-[150px]"
+                className="md:col-span-6 lg:col-span-6 flex flex-col justify-between font-mono text-[10px] text-bronze h-full min-h-[150px]"
               >
                 <div className="space-y-2">
                   <span className="text-gold uppercase tracking-widest font-black block text-xs">SYSTEM OVERKILL WARNING</span>

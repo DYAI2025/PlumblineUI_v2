@@ -20,9 +20,9 @@ function PhysicsBob({ pointerRef }: Plumbline3DSceneProps) {
     const geo = new THREE.BufferGeometry();
     geo.setAttribute("position", new THREE.BufferAttribute(new Float32Array(6), 3));
     const mat = new THREE.LineBasicMaterial({
-      color: new THREE.Color("#CBD5E1"),
+      color: new THREE.Color("#D5891B"), // Elegant golden suspension cable
       transparent: true,
-      opacity: 0.72,
+      opacity: 0.85,
       linewidth: 1.5,
     });
     return new THREE.Line(geo, mat);
@@ -46,65 +46,77 @@ function PhysicsBob({ pointerRef }: Plumbline3DSceneProps) {
 
       {/* 2. Procedural Solid 3D Conical Bob Object */}
       <group ref={bobRef} scale={[mobileScale, mobileScale, mobileScale]}>
-        {/* Suspension loop ring: metallic silver polished chrome */}
+        {/* Suspension loop ring: Warm metallic gold */}
         <mesh position={[0, 0.72, 0]}>
           <torusGeometry args={[0.075, 0.015, 8, 24]} />
           <meshPhysicalMaterial
-            color="#FFFFFF"
+            color="#D5891B"
             metalness={1.0}
-            roughness={0.02}
+            roughness={0.06}
             clearcoat={1.0}
             clearcoatRoughness={0.02}
           />
         </mesh>
 
-        {/* Brushed polished steel collar neck connection */}
+        {/* Brushed anodized solid collar: Deep Umber */}
         <mesh position={[0, 0.54, 0]}>
           <cylinderGeometry args={[0.065, 0.065, 0.16, 16]} />
           <meshPhysicalMaterial
-            color="#94A3B8"
+            color="#542409"
+            metalness={0.9}
+            roughness={0.25}
+            clearcoat={0.6}
+            clearcoatRoughness={0.15}
+          />
+        </mesh>
+
+        {/* Heavy Rounded Shoulder Block: Polished silver metallic chrome with deep shadows */}
+        <mesh position={[0, 0.3, 0]}>
+          <cylinderGeometry args={[0.26, 0.26, 0.32, 32]} />
+          <meshPhysicalMaterial
+            color="#FFFFFF"
+            emissive="#17110D"
+            emissiveIntensity={0.25}
             metalness={1.0}
-            roughness={0.05}
+            roughness={0.04}
+            clearcoat={1.0}
+            clearcoatRoughness={0.03}
+          />
+        </mesh>
+
+        {/* Concentric collar ribbon accent: Rich Bronze */}
+        <mesh position={[0, 0.3, 0]}>
+          <cylinderGeometry args={[0.265, 0.265, 0.12, 32]} />
+          <meshPhysicalMaterial
+            color="#7F3A0E"
+            metalness={1.0}
+            roughness={0.12}
             clearcoat={1.0}
             clearcoatRoughness={0.05}
           />
         </mesh>
 
-        {/* Heavy Rounded Shoulder Block: Polished silver metallic chrome */}
-        <mesh position={[0, 0.3, 0]}>
-          <cylinderGeometry args={[0.26, 0.26, 0.32, 32]} />
-          <meshPhysicalMaterial
-            color="#F1F5F9"
-            emissive="#475569"
-            emissiveIntensity={0.08}
-            metalness={1.0}
-            roughness={0.03}
-            clearcoat={1.0}
-            clearcoatRoughness={0.02}
-          />
-        </mesh>
-
-        {/* Dynamic laser calibration track: bright polished mirror-finish chrome */}
+        {/* Dynamic laser calibration track: Bright mirror polished brassy gold */}
         <mesh position={[0, 0.11, 0]}>
           <cylinderGeometry args={[0.266, 0.266, 0.05, 32]} />
           <meshPhysicalMaterial
-            color="#E2E8F0"
-            emissive="#334155"
-            emissiveIntensity={0.15}
+            color="#D5891B"
+            emissive="#542409"
+            emissiveIntensity={0.18}
             metalness={1.0}
-            roughness={0.02}
+            roughness={0.05}
             clearcoat={1.0}
-            clearcoatRoughness={0.01}
+            clearcoatRoughness={0.02}
           />
         </mesh>
 
-        {/* Sharp focus conical weight: Custom metallic silver polished chrome */}
+        {/* Sharp focus conical weight: Custom metallic high-fidelity chrome body */}
         <mesh position={[0, -0.38, 0]} rotation={[Math.PI, 0, 0]}>
           <coneGeometry args={[0.26, 0.95, 32]} />
           <meshPhysicalMaterial
-            color="#F8FAFC"
-            emissive="#475569"
-            emissiveIntensity={0.1}
+            color="#FFFFFF"
+            emissive="#17110D"
+            emissiveIntensity={0.22}
             metalness={1.0}
             roughness={0.03}
             clearcoat={1.0}
@@ -112,25 +124,38 @@ function PhysicsBob({ pointerRef }: Plumbline3DSceneProps) {
           />
         </mesh>
 
-        {/* Polished indicators & precision tip bounds */}
-        <mesh position={[0, -0.855, 0]}>
-          <sphereGeometry args={[0.024, 16, 16]} />
-          <meshBasicMaterial color="#E2E8F0" />
+        {/* Overlayed Conical Core Nose Cap: Rich Gold */}
+        <mesh position={[0, -0.68, 0]} rotation={[Math.PI, 0, 0]}>
+          <coneGeometry args={[0.13, 0.35, 16]} />
+          <meshPhysicalMaterial
+            color="#D5891B"
+            metalness={1.0}
+            roughness={0.08}
+            clearcoat={1.0}
+            clearcoatRoughness={0.03}
+          />
         </mesh>
 
+        {/* Polished indicators & precision tip bounds: Deepest Umber point */}
+        <mesh position={[0, -0.855, 0]}>
+          <sphereGeometry args={[0.024, 16, 16]} />
+          <meshBasicMaterial color="#17110D" />
+        </mesh>
+
+        {/* Floating Calibration Focus Ring: Gilded Gold */}
         <mesh position={[0, -0.855, 0]} rotation={[Math.PI / 2, 0, 0]}>
-          <ringGeometry args={[0.04, 0.07, 16]} />
-          <meshBasicMaterial color="#F1F5F9" side={THREE.DoubleSide} transparent opacity={0.6} />
+          <ringGeometry args={[0.04, 0.09, 24]} />
+          <meshBasicMaterial color="#7F3A0E" side={THREE.DoubleSide} transparent opacity={0.7} />
         </mesh>
       </group>
 
-      {/* 3. Volumetric glowing spot around Bob tips */}
+      {/* 3. Volumetric glowing spot around Bob tips: Amber Gold aura */}
       <pointLight
         ref={glowLightRef}
-        color="#E2E8F0"
-        intensity={3.2}
-        distance={4.0}
-        decay={1.5}
+        color="#D5891B"
+        intensity={3.8}
+        distance={4.5}
+        decay={1.4}
       />
     </>
   );
