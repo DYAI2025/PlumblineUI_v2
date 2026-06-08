@@ -2,7 +2,7 @@ import { ReactNode } from "react";
 import { usePointer } from "../hooks/usePointer";
 import { useReducedMotion } from "../hooks/useReducedMotion";
 import { ParticleMeasurementCanvas } from "./ParticleMeasurementCanvas";
-import { PlumblineScene } from "./PlumblineScene";
+import { Plumbline3DScene } from "./plumbline3d/Plumbline3DScene";
 import { GravityCursor } from "./GravityCursor";
 
 interface GravityInteractionLayerProps {
@@ -36,7 +36,7 @@ export function GravityInteractionLayer({ children }: GravityInteractionLayerPro
       {!isReduced && <ParticleMeasurementCanvas pointerRef={pointerRef} />}
 
       {/* 4. Heavy steel central plumbline simulation */}
-      <PlumblineScene pointerRef={pointerRef} />
+      <Plumbline3DScene pointerRef={pointerRef} />
 
       {/* 5. Custom cursor event-focus lens */}
       <GravityCursor pointerRef={pointerRef} />
