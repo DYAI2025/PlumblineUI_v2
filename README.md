@@ -17,8 +17,8 @@ PlumblineUI v2 is a static Vite/React marketing site for the Plumbline evidence-
 
 ## Prerequisites
 
-- Node.js 20 or newer.
-- npm 10 or newer.
+- Node.js 22 or newer (the current 3D dependency tree requires Node >=22). The repository also includes `.nvmrc` for local version managers.
+- npm 10.5.1 or newer.
 
 ## Local development
 
@@ -84,6 +84,17 @@ Run `npm run check:cta` after editing CTA labels or destinations. Binary assets 
 ## Deployment notes
 
 Deploy the `dist/` directory to a static host. The GitHub Actions workflow in `.github/workflows/static-site-ci.yml` verifies the static site and uploads `dist/` as an artifact; it does not deploy to production by itself.
+
+### Railway
+
+This repository includes `railway.json` so Railway/Railpack can build and run the static Vite output without guessing a runtime command. Railway runs `npm ci && npm run build`, then starts `serve` against `dist/` on the `$PORT` Railway provides:
+
+```bash
+npm run build
+PORT=3000 npm run start
+```
+
+The app remains a static client-rendered site on Railway: no backend service, database, volume, or runtime secret is required.
 
 ## Honest status
 
